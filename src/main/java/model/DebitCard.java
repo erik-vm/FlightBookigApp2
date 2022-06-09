@@ -7,10 +7,14 @@ public class DebitCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int debitCardId;
-    private long cardNumber;
+    private int cardNumber;
     private double balance;
     @OneToOne(mappedBy = "debitCard")
     private Client client;
+
+    public DebitCard() {
+        balance = 0;
+    }
 
     public int getDebitCardId() {
         return debitCardId;
@@ -24,7 +28,7 @@ public class DebitCard {
         return cardNumber;
     }
 
-    public void setCardNumber(long cardNumber) {
+    public void setCardNumber(int cardNumber) {
         this.cardNumber = cardNumber;
     }
 
