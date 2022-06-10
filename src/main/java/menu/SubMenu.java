@@ -29,28 +29,35 @@ public class SubMenu {
             ;
             switch (userChoice) {
                 case 1:
-                    try {
-                        System.out.println("Enter username: ");
-                        String username = input.next();
-                        if (new RepositoryAdmin().getAdminByUserName(username) != null) {
-                            Admin admin = new RepositoryAdmin().getAdminByUserName(username);
-                            System.out.println("Enter password");
-                            String password = input.next();
-                            if (new RepositoryAdmin().getPasswordByUserName(admin.getUserName()).equals(password)) {
-                                adminMenuChoice(admin, input);
-                            } else {
-                                System.out.println("Incorrect password.");
+                   /* if (new RepositoryAdmin().adminList().size() == 0) {
+                        System.out.println("No admin registered in database. Create new admin and log in.");
+                        new AdminMenu().saveAdmin(input);
+                    } else {
+                        try {
+                            System.out.println("Enter username: ");
+                            String username = input.next();
+                            if (new RepositoryAdmin().getAdminByUserName(username) != null) {
+                                Admin admin = new RepositoryAdmin().getAdminByUserName(username);
+                                System.out.println("Enter password");
+                                String password = input.next();
+                                if (new RepositoryAdmin().getPasswordByUserName(admin.getUserName()).equals(password)) {
+                                    adminMenuChoice(admin, input);
+                                } else {
+                                    System.out.println("Incorrect password.");
+                                }
                             }
+                        } catch (Exception e) {
+                            System.out.println("Login failed.");
                         }
-                    } catch (Exception e) {
-                        System.out.println("Login failed.");
-                    }
+                    }*/
+                    adminMenuChoice(new Admin(), input);
                     break;
                 case 2:
                     clientMenuChoice(input);
                     break;
-                case 3: new ClientMenu().saveClient(input);
-                break;
+                case 3:
+                    new ClientMenu().saveClient(input);
+                    break;
                 case 100:
                     exit = true;
                     System.out.println("System closed.");
@@ -89,17 +96,20 @@ public class SubMenu {
                 case 1:
                     new AdminMenu().menuChoice(admin, input);
                     break;
-                case 2: new ClientMenu().menuChoice(input); ;
-                break;
+                case 2:
+                    new ClientMenu().menuChoice(admin, input);
+                    break;
                 case 3:
+                    new CountryMenu().menuChoice(admin, input);
                     break;
                 case 4:
+                    new CityMenu().menuChoice(admin, input);
                     break;
                 case 5:
                     break;
                 case 6:
                     break;
-                case 7:
+                case 7: new PlaneCompanyMenu().menuChoice(admin,input);
                     break;
                 case 8:
                     break;
@@ -124,6 +134,8 @@ public class SubMenu {
         System.out.println("3: Book a trip");
         System.out.println("4: Cancel a trip");
         System.out.println("5: Show my invoices");
+        System.out.println("6: My debit card balance");
+        System.out.println("7: Make deposit");
         System.out.println("100 - Return to Main Menu");
         System.out.println("\n/***************************************************/");
         return input.nextInt();

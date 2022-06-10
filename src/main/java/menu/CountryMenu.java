@@ -1,15 +1,14 @@
 package menu;
 
+import model.Admin;
 import model.Country;
 import persistence.RepositoryCountry;
 import validation.Validation;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class CountryMenu {
-
-    RepositoryCountry repositoryCountry = new RepositoryCountry();
-    Validation validation = new Validation();
 
     public int menuOptions(Scanner input) {
         System.out.println("\n/***************************************************/");
@@ -20,12 +19,12 @@ public class CountryMenu {
         System.out.println("2: Save new country");
         System.out.println("3: Change country name");
         System.out.println("4: Delete country");
-        System.out.println("100 - Return to Main Menu");
+        System.out.println("100 - Return to admin menu");
         System.out.println("\n/***************************************************/");
         return input.nextInt();
     }
 
-    protected void menuChoice(Scanner input) {
+    protected void menuChoice(Admin admin, Scanner input) {
 
         int userChoice;
         do {
@@ -40,7 +39,7 @@ public class CountryMenu {
                 case 4: deleteCountry(input);
                 break;
                 case 100:
-                    MainMenu.getMainMenu();
+                    new SubMenu().adminMenuChoice(admin, input);
                     break;
                 default:
                     System.out.println("\nSorry, please enter valid Option");
@@ -51,11 +50,15 @@ public class CountryMenu {
     }
 
     public void countryList(Scanner input){
-        if (repositoryCountry.countryList().size() == 0){
+        if (new RepositoryCountry().countryList().size() == 0){
             System.out.println("No countries available.");
             return;
         }
-        for (Country country : repositoryCountry.countryList()){
+        Long countryCount = new RepositoryCountry().totalCountryCount();
+        List <Country> countryList= new RepositoryCountry().countryList();
+        System.out.println();
+        System.out.println("Total countries(" +countryCount +")" +"\n---------------------------------------------------");
+        for (Country country : countryList){
             System.out.println(country);
         }
     }
@@ -66,9 +69,9 @@ public class CountryMenu {
             try {
                 System.out.println("Enter name of the country:");
                 String countryName = input.next();
-                if (validation.validName(countryName)){
+                if (new Validation().validName(countryName)){
                     country.setName(countryName);
-                    repositoryCountry.saveCountry(country);
+                    new RepositoryCountry().saveCountry(country);
                     System.out.println("Country saved");
                     correctInput = true;
                 }
@@ -81,7 +84,8 @@ public class CountryMenu {
     public void deleteCountry(Scanner input){
         try {
             System.out.println("Enter country id to delete:");
-            repositoryCountry.deleteCountryById(input.nextInt());
+            new RepositoryCountry().deleteCountryById(input.nextInt());
+            System.out.println("Country deleted successfully.");
         }catch (Exception e){
             System.out.println("Failed to delete country. Check for correct id.");
         }
@@ -90,11 +94,11 @@ public class CountryMenu {
         try {
             System.out.println("Enter country id to change name:");
             int countryId = input.nextInt();
-            if (repositoryCountry.getCountryById(countryId) != null){
+            if (new RepositoryCountry().getCountryById(countryId) != null){
                 System.out.println("Enter new name:");
                 String newName = input.next();
-                if (validation.validName(newName)) {
-                    repositoryCountry.changeNameById(countryId, newName);
+                if (new Validation().validName(newName)) {
+                    new RepositoryCountry().changeNameById(countryId, newName);
                     System.out.println("Name changed");
                 }
             }

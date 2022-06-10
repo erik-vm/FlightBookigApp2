@@ -22,12 +22,12 @@ public class ClientMenu {
         System.out.println("2: Delete client");
         System.out.println("3: Show invoices by client id.");
         System.out.println("4: Client list");
-        System.out.println("100 - Return to Main Menu");
+        System.out.println("100 - admin menu");
         System.out.println("\n/***************************************************/");
         return input.nextInt();
     }
 
-    protected void menuChoice(Scanner input) {
+    protected void menuChoice(Admin admin,Scanner input) {
 
         int userChoice;
         do {
@@ -42,7 +42,7 @@ public class ClientMenu {
                 case 4: clientList();
                     break;
                 case 100:
-                    MainMenu.getMainMenu();
+                    new SubMenu().adminMenuChoice(admin, input);
                     break;
                 default:
                     System.out.println("\nSorry, please enter valid Option");

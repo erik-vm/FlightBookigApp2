@@ -35,9 +35,10 @@ public class RepositoryCountry {
     }
     public void changeNameById(int countryId, String newName){
         try {
+            entityManager.clear();
             entityManager.getTransaction().begin();
-            entityManager.createQuery("UPDATE Country SET name = :newName WHERE countryId= :countryId", Country.class)
-                    .setParameter("name", newName).setParameter("countryId", countryId).executeUpdate();
+            entityManager.createQuery("UPDATE Country SET name = :newName WHERE countryId= :countryId")
+                    .setParameter("newName", newName).setParameter("countryId", countryId).executeUpdate();
             entityManager.getTransaction().commit();
         }catch (Exception e){
             entityManager.getTransaction().rollback();
@@ -46,11 +47,14 @@ public class RepositoryCountry {
     public void deleteCountryById(int countryId){
         try {
             entityManager.getTransaction().begin();
-            entityManager.createQuery("DELETE Country WHERE countryId= :countryId", Country.class)
+            entityManager.createQuery("DELETE Country WHERE countryId= :countryId")
                     .setParameter("countryId", countryId).executeUpdate();
             entityManager.getTransaction().commit();
         }catch (Exception e){
             entityManager.getTransaction().rollback();
         }
+    }
+    public Long totalCountryCount(){
+        return (Long) entityManager.createQuery("SELECT count(*) FROM Country").getSingleResult();
     }
 }

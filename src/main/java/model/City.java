@@ -46,6 +46,6 @@ public class City {
 
     @Override
     public String toString() {
-        return "Id: " + cityId + " | Name: " + name + " | Country: " + country;
+        return "Id: " + cityId + " | Name: " + name + " | Country: " + country.getName();
     }
 }

@@ -19,7 +19,7 @@ public class AdminMenu {
         System.out.println("2: Delete admin");
         System.out.println("3: Change your password");
         System.out.println("4: Admin list");
-        System.out.println("100 - Return to Main Menu");
+        System.out.println("100 - Return to admin menu");
         System.out.println("\n/***************************************************/");
         return input.nextInt();
     }
@@ -34,7 +34,7 @@ public class AdminMenu {
                     saveAdmin(input);
                     break;
                 case 2:
-                    deleteAdmin(input);
+                    deleteAdmin(admin,input);
                     break;
                 case 3:
                     changePassword(admin,input);
@@ -42,7 +42,7 @@ public class AdminMenu {
                 case 4: adminList(input);
                 break;
                 case 100:
-                    MainMenu.getMainMenu();
+                    new SubMenu().adminMenuChoice(admin,input);
                     break;
                 default:
                     System.out.println("\nSorry, please enter valid Option");
@@ -52,7 +52,7 @@ public class AdminMenu {
         } while (userChoice != 100);
     }
 
-    private void saveAdmin(Scanner input) {
+    protected void saveAdmin(Scanner input) {
         try {
             Admin admin = new Admin();
             System.out.println("Enter username (3-20 characters. Can contain numbers.):");
@@ -76,12 +76,15 @@ public class AdminMenu {
         }
     }
 
-    private void deleteAdmin(Scanner input) {
+    private void deleteAdmin(Admin admin,Scanner input) {
         try {
             System.out.println("Enter admin id: ");
             int adminId = input.nextInt();
             if (new RepositoryAdmin().getAdminById(adminId) != null) {
                 new RepositoryAdmin().deleteAdmin(adminId);
+                if (adminId == admin.getAdminId()){
+                    new SubMenu().menuChoice(input);
+                }
                 System.out.println("Admin deleted.");
             }
         } catch (Exception e) {
@@ -101,7 +104,7 @@ public class AdminMenu {
                 System.out.println("Enter new password (minimum 8 characters long, has to contain at least on uppercase, one lowercase letter and one number):");
                 String newPassword = input.next();
                 if (new Validation().validPassword(newPassword)) {
-                    new RepositoryAdmin().modifyAdminPassword(admin.getAdminId(), input.next());
+                    new RepositoryAdmin().modifyAdminPassword(admin.getAdminId(), newPassword);
                     System.out.println("Password successfully changed.");
                 }
             }
