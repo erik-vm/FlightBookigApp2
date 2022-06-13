@@ -30,7 +30,7 @@ public class RepositoryPlaneCompany {
         return entityManager.createQuery("FROM PlaneCompany", PlaneCompany.class).getResultList();
     }
     public List<PlaneCompany> planeCompanyListByCity(City city){
-        return entityManager.createQuery("From PlaneCompany WHERE cityId= city", PlaneCompany.class)
+        return entityManager.createQuery("FROM PlaneCompany WHERE cityName= :city", PlaneCompany.class)
                 .setParameter("city", city).getResultList();
     }
     public void deletePlaneCompany(int id){
@@ -42,5 +42,8 @@ public class RepositoryPlaneCompany {
         }catch (Exception e){
             entityManager.getTransaction().rollback();
         }
+    }
+    public PlaneCompany getCompanyByName(String name){
+        return entityManager.createQuery("FROM PlaneCompany WHERE name= :name", PlaneCompany.class).setParameter("name", name).getSingleResult();
     }
 }

@@ -1,6 +1,11 @@
 package menu;
 
 import model.Admin;
+import model.Plane;
+import model.PlaneCompany;
+import persistence.RepositoryPlane;
+import persistence.RepositoryPlaneCompany;
+import validation.Validation;
 
 import java.util.Scanner;
 
@@ -26,15 +31,13 @@ public class PlaneMenu {
         do {
             userChoice = menuOptions(input);
             switch (userChoice) {
-                case 1:
+                case 1: savePlane(input);
                     break;
-                case 2:
+                case 2: planeList();
                     break;
-                case 3:
+                case 3:planeListByCompany(input);
                     break;
-                case 4:
-                    break;
-                case 5:
+                case 4:deletePlane(input);
                     break;
                 case 100:
                     new SubMenu().adminMenuChoice(admin, input);
@@ -50,8 +53,48 @@ public class PlaneMenu {
     public void savePlane(Scanner input){
         try{
             System.out.println("Enter plane name");
+            String name = input.next();
+            if (new Validation().validName(name)){
+                System.out.println("Enter company name:");
+                PlaneCompany planeCompany = new RepositoryPlaneCompany().getCompanyByName(input.next());
+                if (planeCompany != null){
+                    System.out.println("Enter planes max capacity:");
+                    new RepositoryPlane().savePlane(new Plane(name, planeCompany, input.nextInt()));
+                    System.out.println("Plane saved.");
+                }
+            }
         }catch (Exception e){
             System.out.println("Saving plane failed.");
+        }
+    }
+    public void deletePlane(Scanner input){
+        try {
+            System.out.println("Enter plane id:");
+            new RepositoryPlane().deletePlaneById(input.nextInt());
+        }catch (Exception e){
+            System.out.println("Deleting plane failed.");
+        }
+    }
+    public void planeList(){
+        if (new RepositoryPlane().planeList().size() == 0){
+            System.out.println("No planes in database");
+        return;
+        }
+        for (Plane plane : new RepositoryPlane().planeList()){
+            System.out.println(plane);
+        }
+    }
+    public void planeListByCompany(Scanner input){
+        try{
+            System.out.println("Enter company name:");
+            PlaneCompany planeCompany = new RepositoryPlaneCompany().getCompanyByName(input.next());
+            for (Plane plane : new RepositoryPlane().planeList()){
+                if (plane.getPlaneCompany() == planeCompany){
+                    System.out.println(plane);
+                }
+            }
+        }catch (Exception e){
+            System.out.println("No planes found.");
         }
     }
 }

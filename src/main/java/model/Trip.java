@@ -10,15 +10,15 @@ public class Trip {
     @GeneratedValue
     private int tripId;
     @ManyToOne
-    @JoinColumn(name = "planeId")
+    @JoinColumn(name = "planeName")
     private Plane plane;
     @ManyToOne
-    @JoinColumn(name = "departureCityId")
+    @JoinColumn(name = "departureCityName")
     private City departureCity;
     @ManyToOne
-    @JoinColumn(name = "destinationCityId")
+    @JoinColumn(name = "destinationCityName")
     private City destinationCity;
-    private Calendar dayOfDeparture;
+    private String dayOfDeparture;
     private Time timeOfDeparture;
     private Time duration;
     private double pricePerPassenger;
@@ -26,7 +26,17 @@ public class Trip {
     public Trip() {
     }
 
-    public Trip(Plane plane, City departureCity, City destinationCity, Calendar dayOfDeparture, Time duration, double pricePerPassenger) {
+    public Trip(Plane plane, City departureCity, City destinationCity, String dayOfDeparture, Time timeOfDeparture, Time duration, double pricePerPassenger) {
+        this.plane = plane;
+        this.departureCity = departureCity;
+        this.destinationCity = destinationCity;
+        this.dayOfDeparture = dayOfDeparture;
+        this.timeOfDeparture = timeOfDeparture;
+        this.duration = duration;
+        this.pricePerPassenger = pricePerPassenger;
+    }
+
+    public Trip(Plane plane, City departureCity, City destinationCity, String dayOfDeparture, Time duration, double pricePerPassenger) {
         this.plane = plane;
         this.departureCity = departureCity;
         this.destinationCity = destinationCity;
@@ -67,11 +77,11 @@ public class Trip {
         this.destinationCity = destinationCity;
     }
 
-    public Calendar getDayOfDeparture() {
+    public String getDayOfDeparture() {
         return dayOfDeparture;
     }
 
-    public void setDayOfDeparture(Calendar dayOfDeparture) {
+    public void setDayOfDeparture(String dayOfDeparture) {
         this.dayOfDeparture = dayOfDeparture;
     }
 
@@ -105,8 +115,8 @@ public class Trip {
                 "\nId: " + tripId + " | Plane: " + plane.getName() + " | Company: " + plane.getPlaneCompany().getName()
                 + "\nDeparture from " + departureCity.getName() + "(" + departureCity.getCountry().getName() + ") to "
                 + destinationCity.getName() + "(" + destinationCity.getCountry().getName() + ") "
-                + "Departure: " + timeOfDeparture + " ("+dayOfDeparture.get(Calendar.DAY_OF_WEEK)+")"+ " | Duration: " + duration
-                + " | Price per passenger: " + pricePerPassenger
+                + "Departure: " + timeOfDeparture + " ("+dayOfDeparture+")"+ " | Duration: " + duration
+                + " | Price per passenger: " + pricePerPassenger + " | Seats left: " + plane.getCurrentCapacity()
                 + "\n--------------------------------------------------------------------------------------------------------------------------------------";
     }
 }

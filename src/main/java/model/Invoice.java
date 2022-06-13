@@ -30,6 +30,14 @@ public class Invoice {
         this.totalPrice = totalPrice;
     }
 
+    public Invoice(Client client, Trip trip, int passengers) {
+        dateIssued = Date.valueOf(LocalDate.now());
+        this.client = client;
+        this.trip = trip;
+        this.passengers = passengers;
+        totalPrice = passengers * trip.getPricePerPassenger();
+    }
+
     public int getInvoiceId() {
         return invoiceId;
     }

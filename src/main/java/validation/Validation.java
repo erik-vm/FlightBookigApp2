@@ -50,10 +50,11 @@ public class Validation {
     public boolean validDebitCard(int debitCardNumber){
         return String.valueOf(debitCardNumber).matches("^\\d{8}");
     }
-    public boolean doesDebitCardExist(int debitCardNumber){
+
+    public boolean doesDebitCardExist(int debitCardId){
         boolean result = false;
         try {
-            if (new RepositoryDebitCard().getDebitCardByNumber(debitCardNumber) != null){
+            if (new RepositoryDebitCard().getDebitCardById(debitCardId) != null){
                 result = true;
             }
         }catch (Exception e){

@@ -9,7 +9,7 @@ public class City {
     private int cityId;
     private String name;
     @ManyToOne
-    @JoinColumn(name = "countryId")
+    @JoinColumn(name = "countryName")
     private Country country;
 
     public City() {

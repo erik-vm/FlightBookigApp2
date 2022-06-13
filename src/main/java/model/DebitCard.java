@@ -47,4 +47,10 @@ public class DebitCard {
     public void setClient(Client client) {
         this.client = client;
     }
+
+    @Override
+    public String toString() {
+        return "Card number: " + cardNumber +
+                " | Balance: " + balance;
+    }
 }

@@ -9,7 +9,7 @@ public class PlaneCompany {
     private int planeCompanyId;
     private String name;
     @ManyToOne
-    @JoinColumn(name = "cityId")
+    @JoinColumn(name = "cityName")
     private City city;
 
     public PlaneCompany() {
@@ -46,6 +46,6 @@ public class PlaneCompany {
 
     @Override
     public String toString() {
-        return "Id: " + planeCompanyId + " | Name: " + name + " | City: " + city + "(" + city.getCountry()+")";
+        return "Id: " + planeCompanyId + " | Name: " + name + " | City: " + city.getName() + "(" + city.getCountry().getName()+")";
     }
 }

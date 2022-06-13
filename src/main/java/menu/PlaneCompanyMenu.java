@@ -56,11 +56,11 @@ public class PlaneCompanyMenu {
             String planeCompanyName = input.next();
             if (new Validation().validName(planeCompanyName)){
                 System.out.println("Enter city company is located in:");
-                new RepositoryPlaneCompany().savePlaneCompany(new PlaneCompany(planeCompanyName, new RepositoryCity().getCityByName(input.next())));
+                    new RepositoryPlaneCompany().savePlaneCompany(new PlaneCompany(planeCompanyName,new RepositoryCity().getCityByName(input.next())));
                 System.out.println("Company saved.");
             }
         }catch (Exception e){
-            System.out.println("Saving plane company failed.");
+            System.out.println("Saving company failed.");
         }
     }
     private void planeCompanyList(Scanner input){
@@ -89,6 +89,7 @@ public class PlaneCompanyMenu {
         try {
             System.out.println("Enter id of plane company to delete:");
             new RepositoryPlaneCompany().deletePlaneCompany(input.nextInt());
+            System.out.println("Company deleted.");
         }catch (Exception e){
             System.out.println("Deleting company failed.");
         }

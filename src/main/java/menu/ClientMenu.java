@@ -107,6 +107,9 @@ public class ClientMenu {
     }
 
     private void clientList(){
+        if (new RepositoryClient().clientList().size() == 0){
+            System.out.println("No clients id database.");
+        }
         for (Client client : new RepositoryClient().clientList()){
             System.out.println(client);
         }

@@ -9,7 +9,7 @@ public class Plane {
     private int planeId;
     private String name;
     @ManyToOne
-    @JoinColumn(name = "planeCompanyId")
+    @JoinColumn(name = "planeCompanyName")
     private PlaneCompany planeCompany;
     private int maxCapacity;
     private int currentCapacity;
@@ -17,11 +17,11 @@ public class Plane {
     public Plane() {
     }
 
-    public Plane(String name, PlaneCompany planeCompany, int maxCapacity, int currentCapacity) {
+    public Plane(String name, PlaneCompany planeCompany, int maxCapacity) {
         this.name = name;
         this.planeCompany = planeCompany;
         this.maxCapacity = maxCapacity;
-        this.currentCapacity = currentCapacity;
+        currentCapacity = maxCapacity;
     }
 
     public int getPlaneId() {
@@ -66,6 +66,6 @@ public class Plane {
 
     @Override
     public String toString() {
-        return "Id: " + planeId + " | Name: " + name + " | Company: " + planeCompany + " | Max capacity: " + maxCapacity;
+        return "Id: " + planeId + " | Name: " + name + " | Company: " + planeCompany.getName() + " | Max capacity: " + maxCapacity;
     }
 }

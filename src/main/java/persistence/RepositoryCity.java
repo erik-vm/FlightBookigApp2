@@ -43,20 +43,17 @@ public class RepositoryCity {
 
 
     public List<City> cityListByCountry(Country country) {
-        return entityManager.createQuery("FROM City WHERE countryId = :country", City.class).setParameter("country", country).getResultList();
+        return entityManager.createQuery("FROM City WHERE countryName = :country", City.class).setParameter("country", country).getResultList();
     }
 
     public City getCityById(int cityId){
         return entityManager.find(City.class, cityId);
     }
 
-    public City getCityByName(String name){
-        return entityManager.find(City.class, name);
-    }
 
-   /* public City getCityByName(String name) {
+    public City getCityByName(String name) {
         return entityManager.createQuery("FROM City WHERE name= :name", City.class).setParameter("name", name).getSingleResult();
-    }*/
+    }
 
     public void changeCityNameById(int cityId ,String newName){
         try {
@@ -72,6 +69,6 @@ public class RepositoryCity {
         return (Long) entityManager.createQuery("SELECT count(*) FROM City").getSingleResult();
     }
     public Long cityCountByCountry(Country country){
-        return (Long) entityManager.createQuery("SELECT count(*) FROM City WHERE countryId= :country").setParameter("country", country).getSingleResult();
+        return (Long) entityManager.createQuery("SELECT count(*) FROM City WHERE countryName= :country").setParameter("country", country).getSingleResult();
     }
 }
